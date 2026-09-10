@@ -2,9 +2,7 @@
 
 This comprehensive document outlines the complete secure file storage ecosystem, detailing user uploads, cryptographic key management, granular smart contract access controls, and robust dynamic revocation mechanisms.
 
-Instead of the prei
-
-'''
+```text
 +-----------------------------------------------------------------------+
 | 1. USER UPLOADS FILE                                                  |
 +-----------------------------------------------------------------------+
