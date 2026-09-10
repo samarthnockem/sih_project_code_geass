@@ -15,7 +15,7 @@
 | **Problem Statement ID** | SIH26125 |
 | **Problem Statement Title** | Blockchain-Based Secure Platform for Identity, Access Control, and Digital Asset Management |
 | **Category** | Software |
-| **Team Placeholders** | `tm 1`, `tm 2`, `tm 3`, `tm 4`, `tm 5`, `tm 6` |
+| **Team Placeholders** | Manit Shukla, Samarth Bhatia, Daivik Verma, Munaf, Aanya Srivastava, Kavish Kumar |
 
 ---
 
