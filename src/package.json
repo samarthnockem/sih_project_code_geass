@@ -1,0 +1,8 @@
+{
+  "name": "kryptovault-local",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev:all": "powershell -ExecutionPolicy Bypass -File .\\start-kryptovault.ps1"
+  }
+}
