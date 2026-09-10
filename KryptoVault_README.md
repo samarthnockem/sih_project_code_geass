@@ -99,28 +99,6 @@ The **KryptoVault** separates identity, access control rules, encrypted asset st
 * **Version Control & Dev Tools:** Git, GitHub, VS Code
 
 ---
-
-## 7. Repository Structure
-
-```text
-SOVEREIGN-DIGITAL-VAULT/
-├── README.md                  # Main repository overview and architecture documentation
-├── submission/
-│   ├── PRESENTATION.md        # Pitch deck links and slide breakdown
-│   └── DEMO.md                # Demonstration video links and key walkthrough timestamp
-├── docs/
-│   └── architecture.md        # Deep dive on cryptography, key wrapping, and smart contracts
-├── src/
-│   ├── frontend/              # React.js client interface
-│   ├── backend/               # Express API and off-chain storage connectors
-│   └── contracts/             # Solidity smart contracts and Hardhat deployment scripts
-├── assets/
-│   └── screenshots/           # Architecture diagrams, smart contract audits, and UI flow
-├── requirements.txt / package.json
-├── .gitignore
-└── LICENSE
-```
-
 ---
 
 ## 8. Team Members
