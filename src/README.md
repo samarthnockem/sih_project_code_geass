@@ -6,6 +6,9 @@ The final frontend lives in `frontend/` and is vanilla HTML, CSS, and
 JavaScript. Preserve its current visual design, dark/light theme, pages, and
 modals.
 
+##Live Deployment 
+Access the fully functional deployed website here: https://blockchain-project-sih-1.onrender.com/
+
 ## Architecture
 
 - Frontend: client-side Web Crypto file encryption/decryption, AES key
