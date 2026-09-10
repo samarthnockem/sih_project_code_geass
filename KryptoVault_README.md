@@ -101,7 +101,7 @@ The **KryptoVault** separates identity, access control rules, encrypted asset st
 ---
 ---
 
-## 8. Team Members
+## 7. Team Members
 
 * Manit Shukla
 * Samarth Bhatia
@@ -112,7 +112,7 @@ The **KryptoVault** separates identity, access control rules, encrypted asset st
 
 ---
 
-## 9. Developer Setup & Installation
+## 8. Developer Setup & Installation
 
 Developers working on this project can follow standard deployment workflows:
 
@@ -144,7 +144,7 @@ npm run dev
 
 ---
 
-## 10. Future Scope
+## 9. Future Scope
 
 * **IPFS Integration:** Optional decentralized content-addressed storage for encrypted asset blobs.
 * **Verifiable Credentials:** Trusted issuers could provide privacy-preserving digital credentials linked to wallet identities.
