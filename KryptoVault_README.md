@@ -105,7 +105,6 @@ The **KryptoVault** separates identity, access control rules, encrypted asset st
 ```text
 SOVEREIGN-DIGITAL-VAULT/
 ├── README.md                  # Main repository overview and architecture documentation
-├── SUBMISSION_GUIDE.md        # SIH submission guidelines and repository checklist
 ├── submission/
 │   ├── PRESENTATION.md        # Pitch deck links and slide breakdown
 │   └── DEMO.md                # Demonstration video links and key walkthrough timestamp
@@ -126,12 +125,12 @@ SOVEREIGN-DIGITAL-VAULT/
 
 ## 8. Team Members
 
-* `tm 1`
-* `tm 2`
-* `tm 3`
-* `tm 4`
-* `tm 5`
-* `tm 6`
+* Manit Shukla
+* Samarth Bhatia
+* Daivik Verma
+* Munaf
+* Aanya Srivastava
+* Kavish Kumar
 
 ---
 
