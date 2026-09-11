@@ -1,0 +1,12 @@
+{
+  "name": "kryptovault-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "test": "node crypto.test.js && node blockchain.test.js"
+  },
+  "dependencies": {
+    "ethers": "^6.17.0"
+  }
+}

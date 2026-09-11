@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KryptoVault — Blockchain Document Protection Demo</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="toast" class="toast"></div>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">SV</div>
+        <div>
+          <strong>KryptoVault</strong>
+          <span>Protected Workspace</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" data-page="dashboard">Dashboard</button>
+        <button class="nav-item" data-page="documents">My Documents</button>
+        <button class="nav-item" data-page="shared">Shared With Me</button>
+        <button class="nav-item" data-page="folders">Folders</button>
+        <button class="nav-item" data-page="activity">Activity</button>
+        <button class="nav-item" data-page="blockchain">Blockchain Records</button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <button class="nav-item" data-page="account">Account</button>
+        <button class="nav-item" data-page="security">Security</button>
+        <button class="nav-item" data-page="settings">Settings</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="eyebrow">Secure document workspace</div>
+          <h1 id="pageTitle">Dashboard</h1>
+        </div>
+        <div class="top-actions">
+          <label class="theme-switch" title="Switch light/dark mode" aria-label="Switch light or dark mode">
+            <input type="checkbox" id="themeToggle" />
+            <span class="theme-track"><span class="theme-icon sun">☀</span><span class="theme-knob"></span><span class="theme-icon moon">☾</span></span>
+          </label>
+          <div class="status-pill" id="kycPill">KYC: Pending</div>
+          <button class="btn secondary" id="walletBtn">Connect Wallet</button>
+          <button class="btn primary" id="openUploadBtn">+ Upload</button>
+        </div>
+      </header>
+
+      <!-- Dashboard -->
+      <section class="page active" id="page-dashboard">
+        <div class="hero">
+          <div>
+            <div class="eyebrow">Welcome back</div>
+            <h2 id="welcomeName">Rohit Sharma</h2>
+            <p>
+              Store files off-chain, record ownership and integrity on-chain,
+              and control access using verified wallet identities.
+            </p>
+          </div>
+          <div class="hero-card">
+            <span>Workspace security</span>
+            <strong>Protected</strong>
+            <small>AES-ready storage • SHA-256 integrity • access audit</small>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span>Secure Documents</span>
+            <strong id="statDocs">0</strong>
+            <small>Files owned by you</small>
+          </div>
+          <div class="stat-card">
+            <span>Shared With Me</span>
+            <strong id="statShared">0</strong>
+            <small>Files available to your identity</small>
+          </div>
+          <div class="stat-card">
+            <span>Blockchain Verified</span>
+            <strong id="statVerified">0/0</strong>
+            <small>Registered fingerprints</small>
+          </div>
+          <div class="stat-card">
+            <span>Storage Used</span>
+            <strong id="statStorage">0 KB</strong>
+            <small>Demo browser storage</small>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Recent Documents</h3>
+              <p>Latest protected files in this workspace.</p>
+            </div>
+            <button class="link-btn" data-page-jump="documents">View all</button>
+          </div>
+          <div id="recentDocs"></div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Protection Pipeline</h3>
+                <p>What the real product is designed to do.</p>
+              </div>
+            </div>
+            <div class="pipeline">
+              <div><b>1</b><span>File selected</span></div>
+              <div><b>2</b><span>Encrypt with AES key</span></div>
+              <div><b>3</b><span>Generate SHA-256 fingerprint</span></div>
+              <div><b>4</b><span>Store encrypted file off-chain</span></div>
+              <div><b>5</b><span>Record ownership + hash on blockchain</span></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h3>Demo Notes</h3>
+                <p>What is real vs simulated in this build.</p>
+              </div>
+            </div>
+            <ul class="checklist">
+              <li><span>✓</span> Real browser SHA-256 hashing</li>
+              <li><span>✓</span> Real local file metadata handling</li>
+              <li><span>✓</span> Real MetaMask connection when installed</li>
+              <li><span>✓</span> Persistent mock data via localStorage</li>
+              <li><span>○</span> Blockchain writes are simulated</li>
+              <li><span>○</span> KYC is simulated</li>
+              <li><span>○</span> Production AES/key wrapping is not implemented</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Documents -->
+      <section class="page" id="page-documents">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>My Documents</h3>
+              <p>Files you own and control.</p>
+            </div>
+            <div class="row-actions">
+              <input id="docSearch" class="input compact" placeholder="Search documents..." />
+              <button class="btn primary" id="uploadFromDocs">+ Upload Document</button>
+            </div>
+          </div>
+          <div id="documentsList"></div>
+        </div>
+      </section>
+
+      <!-- Shared -->
+      <section class="page" id="page-shared">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Shared With Me</h3>
+              <p>Demo records representing documents another verified user shared with you.</p>
+            </div>
+          </div>
+          <div id="sharedList"></div>
+        </div>
+      </section>
+
+      <!-- Folders -->
+      <section class="page" id="page-folders">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Folders</h3>
+              <p>Open folders, review their documents, and move files between folders.</p>
+            </div>
+            <button class="btn secondary" id="newFolderBtn">+ New Folder</button>
+          </div>
+          <div id="foldersGrid" class="folders-grid"></div>
+        </div>
+      </section>
+
+      <!-- Activity -->
+      <section class="page" id="page-activity">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Audit Activity</h3>
+              <p>Human-readable history of security and sharing actions.</p>
+            </div>
+            <button class="btn ghost" id="clearActivityBtn">Clear Demo Logs</button>
+          </div>
+          <div id="activityTimeline" class="timeline"></div>
+        </div>
+      </section>
+
+      <!-- Blockchain -->
+      <section class="page" id="page-blockchain">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Blockchain Records</h3>
+              <p>Simulated contract records generated by the blockchain service layer.</p>
+            </div>
+          </div>
+          <div id="blockchainList"></div>
+        </div>
+      </section>
+
+      <!-- Account -->
+      <section class="page" id="page-account">
+        <div class="two-col">
+          <div class="panel">
+            <h3>Account</h3>
+            <div class="form-grid">
+              <label>Full name<input class="input" id="profileName" value="Rohit Sharma" /></label>
+              <label>Email<input class="input" id="profileEmail" value="rohit@example.com" /></label>
+              <label>Wallet<input class="input" id="profileWallet" readonly /></label>
+              <button class="btn primary" id="saveProfileBtn">Save Profile</button>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Mock Identity Verification</h3>
+            <p id="kycDescription">Select a demo document, then run mock KYC. The file is never uploaded.</p>
+            <label>Document Type
+              <select class="input" id="kycType">
+                <option>Aadhaar Card</option>
+                <option>PAN Card</option>
+                <option>Passport</option>
+                <option>Driving Licence</option>
+              </select>
+            </label>
+            <label class="upload-mini">
+              <input type="file" id="kycFile" />
+              <span>Choose demo identity document</span>
+            </label>
+            <button class="btn primary" id="verifyKycBtn">Verify Identity</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Security -->
+      <section class="page" id="page-security">
+        <div class="security-dashboard">
+          <div class="panel security-score-panel">
+            <div>
+              <div class="eyebrow">Workspace protection</div>
+              <h3>Security Health</h3>
+              <p>Live demo score based on identity, wallet, policy controls and document integrity.</p>
+            </div>
+            <div class="security-score-wrap">
+              <strong id="securityScore">0%</strong>
+              <span id="securityScoreText">Checking security...</span>
+            </div>
+            <div class="security-meter"><div id="securityScoreFill"></div></div>
+          </div>
+
+          <div class="two-col">
+            <div class="panel">
+              <h3>Live Security Status</h3>
+              <div class="security-stack">
+                <div><strong>Identity Verification</strong><span id="securityKycStatus">Checking...</span></div>
+                <div><strong>Wallet Identity</strong><span id="securityWalletStatus">Checking...</span></div>
+                <div><strong>Document Integrity</strong><span id="securityHashStatus">Checking...</span></div>
+                <div><strong>Protected Documents</strong><span id="securityDocumentStatus">Checking...</span></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <h3>Security Policy</h3>
+              <label class="toggle-row"><span>Require KYC before sharing<small>Blocks sharing until demo identity verification is complete.</small></span><input type="checkbox" id="requireKyc" checked /></label>
+              <label class="toggle-row"><span>Require wallet before blockchain actions<small>Requires a connected wallet before access transactions.</small></span><input type="checkbox" id="requireWallet" checked /></label>
+              <label class="toggle-row"><span>Show security progress during upload<small>Shows each protection stage during the demo upload flow.</small></span><input type="checkbox" id="showProgress" checked /></label>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h3>Security Architecture</h3>
+            <p>Production design versus what is simulated in this frontend demo.</p>
+            <div class="security-architecture">
+              <div><b>Wallet</b><span>Identity + signatures</span></div>
+              <span class="security-arrow">→</span>
+              <div><b>Smart Contract</b><span>Ownership + permission audit</span></div>
+              <span class="security-arrow">→</span>
+              <div><b>Wrapped AES Key</b><span>Per-authorized-user key access</span></div>
+              <span class="security-arrow">→</span>
+              <div><b>Encrypted File</b><span>Off-chain protected storage</span></div>
+            </div>
+            <div class="inline-note">SHA-256 hashing and MetaMask connection can be real in this demo. AES encryption, key wrapping and blockchain writes remain simulated architecture.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Settings -->
+      <section class="page" id="page-settings">
+        <div class="panel">
+          <h3>Demo Settings</h3>
+          <p>Use these controls while presenting or testing.</p>
+          <div class="settings-actions">
+            <button class="btn secondary" id="seedDemoBtn">Restore Demo Data</button>
+            <button class="btn danger" id="resetAllBtn">Reset Entire Workspace</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Upload Modal -->
+  <div class="modal" id="uploadModal">
+    <div class="modal-card wide">
+      <div class="modal-head">
+        <div>
+          <div class="eyebrow">Secure upload</div>
+          <h2>Protect a Document</h2>
+        </div>
+        <button class="icon-btn" data-close="uploadModal">×</button>
+      </div>
+
+      <div id="uploadStepForm">
+        <label class="drop-zone" id="dropZone">
+          <input type="file" id="uploadFile" hidden />
+          <div class="drop-icon">⇧</div>
+          <strong>Drop a file here or click to browse</strong>
+          <span id="selectedFileLabel">No file selected</span>
+        </label>
+
+        <div class="form-grid two">
+          <label>Folder
+            <select class="input" id="uploadFolder"></select>
+          </label>
+          <label>Access
+            <select class="input" id="uploadAccess">
+              <option value="private">Private</option>
+              <option value="team">Team</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="security-options">
+          <label class="toggle-row"><span>AES-256 Encryption <small>simulated architecture</small></span><input type="checkbox" checked disabled /></label>
+          <label class="toggle-row"><span>Blockchain Verification <small>mock transaction</small></span><input type="checkbox" checked disabled /></label>
+          <label class="toggle-row"><span>SHA-256 Fingerprint <small>real browser hash</small></span><input type="checkbox" checked disabled /></label>
+        </div>
+
+        <label>Optional File Password
+          <input class="input" type="password" id="uploadPassword" placeholder="Optional demo field" />
+        </label>
+
+        <div class="modal-actions">
+          <button class="btn ghost" data-close="uploadModal">Cancel</button>
+          <button class="btn primary" id="secureUploadBtn">Secure Upload</button>
+        </div>
+      </div>
+
+      <div id="uploadProgress" class="hidden">
+        <div class="progress-title">Securing document...</div>
+        <div id="progressSteps" class="progress-steps"></div>
+      </div>
+
+      <div id="uploadSuccess" class="hidden success-state">
+        <div class="success-check">✓</div>
+        <h3>Document Protected</h3>
+        <p>The demo record has been stored successfully.</p>
+        <div class="code-card">
+          <span>SHA-256</span>
+          <code id="successHash"></code>
+        </div>
+        <div class="modal-actions">
+          <button class="btn primary" id="closeUploadSuccess">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Document Modal -->
+  <div class="modal" id="documentModal">
+    <div class="modal-card wide">
+      <div class="modal-head">
+        <div>
+          <div class="eyebrow">Protected document</div>
+          <h2 id="docModalName">Document</h2>
+        </div>
+        <button class="icon-btn" data-close="documentModal">×</button>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" data-doc-tab="overview">Overview</button>
+        <button class="tab" data-doc-tab="access">Access</button>
+        <button class="tab" data-doc-tab="activity">Activity</button>
+        <button class="tab" data-doc-tab="blockchain">Blockchain</button>
+      </div>
+
+      <div class="doc-tab active" id="doc-tab-overview"></div>
+      <div class="doc-tab" id="doc-tab-access"></div>
+      <div class="doc-tab" id="doc-tab-activity"></div>
+      <div class="doc-tab" id="doc-tab-blockchain"></div>
+    </div>
+  </div>
+
+  <!-- Share Modal -->
+  <div class="modal" id="shareModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <div class="eyebrow">Access control</div>
+          <h2>Grant Document Access</h2>
+        </div>
+        <button class="icon-btn" data-close="shareModal">×</button>
+      </div>
+      <label>Recipient Name
+        <input class="input" id="shareName" placeholder="Optional display name" />
+      </label>
+      <label>Recipient Wallet Address
+        <input class="input" id="shareRecipient" placeholder="0x..." />
+      </label>
+      <label>Permission
+        <select class="input" id="shareRole">
+          <option value="READ">READ</option>
+          <option value="WRITE">WRITE</option>
+        </select>
+      </label>
+      <label>Access Duration
+        <select class="input" id="shareDuration">
+          <option value="7">7 Days</option>
+          <option value="30">30 Days</option>
+          <option value="0">No Expiry</option>
+        </select>
+      </label>
+      <label>Reason
+        <textarea class="input" id="shareReason" rows="3" placeholder="Collaboration on project"></textarea>
+      </label>
+      <div class="modal-actions">
+        <button class="btn ghost" data-close="shareModal">Cancel</button>
+        <button class="btn primary" id="grantAccessBtn">Grant Access</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Revoke Modal -->
+  <div class="modal" id="revokeModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <div class="eyebrow">Access revocation</div>
+          <h2>Revoke Access</h2>
+        </div>
+        <button class="icon-btn" data-close="revokeModal">×</button>
+      </div>
+      <p id="revokeText">Revoke this user's access?</p>
+      <label class="radio-card">
+        <input type="radio" name="revokeMode" value="standard" checked />
+        <span><strong>Standard Revocation</strong><small>Block future access in the permission record.</small></span>
+      </label>
+      <label class="radio-card">
+        <input type="radio" name="revokeMode" value="strong" />
+        <span><strong>Strong Revocation</strong><small>Rotate the current file key and reissue keys to remaining users.</small></span>
+      </label>
+      <div class="modal-actions">
+        <button class="btn ghost" data-close="revokeModal">Cancel</button>
+        <button class="btn danger" id="confirmRevokeBtn">Revoke Access</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Folder Modal -->
+  <div class="modal" id="folderModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <div class="eyebrow">Organization</div>
+          <h2>Create Folder</h2>
+        </div>
+        <button class="icon-btn" data-close="folderModal">×</button>
+      </div>
+      <label>Folder Name
+        <input class="input" id="folderNameInput" placeholder="Project Documents" />
+      </label>
+      <div class="modal-actions">
+        <button class="btn ghost" data-close="folderModal">Cancel</button>
+        <button class="btn primary" id="createFolderBtn">Create Folder</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Folder View Modal -->
+  <div class="modal" id="folderViewModal">
+    <div class="modal-card wide">
+      <div class="modal-head">
+        <div>
+          <div class="eyebrow">Folder</div>
+          <h2 id="folderViewTitle">Folder</h2>
+          <p id="folderViewMeta" class="muted">0 documents</p>
+        </div>
+        <button class="icon-btn" data-close="folderViewModal">×</button>
+      </div>
+      <div id="folderDocuments"></div>
+    </div>
+  </div>
+
+  <!-- Move Document Modal -->
+  <div class="modal" id="moveFolderModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <div class="eyebrow">Organization</div>
+          <h2>Move Document</h2>
+        </div>
+        <button class="icon-btn" data-close="moveFolderModal">×</button>
+      </div>
+      <p>Move <strong id="moveDocumentName">this document</strong> to another folder.</p>
+      <label>Destination Folder
+        <select class="input" id="moveFolderSelect"></select>
+      </label>
+      <div class="modal-actions">
+        <button class="btn ghost" data-close="moveFolderModal">Cancel</button>
+        <button class="btn primary" id="confirmMoveFolderBtn">Move Document</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="node_modules/ethers/dist/ethers.umd.min.js"></script>
+  <script src="api.js"></script>
+  <script src="crypto.js"></script>
+  <script src="blockchain-config.js"></script>
+  <script src="blockchain.js"></script>
+  <script src="app.js?v=wallet-connect-state-20260911"></script>
+</body>
+</html>
